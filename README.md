@@ -1,28 +1,91 @@
 # GoldML Intelligence System
 
 ## Project Overview
-The **GoldML Intelligence System** is a collaborative machine learning project focused on analyzing historical gold-related data and building predictive insights for gold price behavior. The project emphasizes end-to-end data science practices, from data preparation and exploratory analysis to model development, evaluation, and reporting.
+The **GoldML Intelligence System** is a supervised machine learning project for **gold market analysis and prediction** using historical gold price data. The project focuses on four independent but related analytical components that support practical financial decisions:
 
-This repository is structured for team-based development where each member independently implements an assigned component, and all outputs are integrated into a final unified solution.
+1. Gold price forecasting (regression)
+2. Next-day market trend prediction (binary classification)
+3. Volatility-based risk classification (multi-class classification)
+4. Investment decision support (Buy / Hold / Sell classification)
+
+This repository is structured for collaborative implementation, where each team member develops their assigned component separately and all components are integrated into one final system.
 
 ---
 
 ## Dataset
 - **Source:** Kaggle
 - **Dataset Link:** https://www.kaggle.com/datasets/ayeshaseherr/gold-prise
-- **Dataset Name:** Gold Price Dataset (as published by the dataset author)
+- **Dataset Name:** Gold Market Analysis – 10 Years of Data
+- **Kaggle Reference:** `ayeshaseherr/gold-prise`
+- **Subtitle (Kaggle):** An in-depth analysis of market trends, volatility, and price movements from 2016
+- **License:** CC0: Public Domain
+- **Last Updated (Kaggle):** 2026-02-21
+
+### Data Scope and Usage
+- Use the exact dataset version from the Kaggle link above for all components.
+- Features used in modeling must come from available dataset columns and clearly documented derived features.
+- If any feature is engineered (e.g., rolling indicators, lag values, momentum fields), document the formula and window size in the component notebook.
 
 > [!NOTE] 
 > Team members should use the same dataset version and document any preprocessing assumptions to maintain consistency across components.
 
+> [!IMPORTANT]
+> The project plan specifies **no structural dataset modification**. Only preprocessing and feature engineering are allowed.
+
 ---
 
 ## Project Objectives
-1. Perform comprehensive exploratory data analysis (EDA) on the gold price dataset.
-2. Identify key features and temporal/market relationships influencing gold prices.
-3. Build and compare multiple machine learning models for prediction.
-4. Evaluate model performance using suitable regression metrics.
-5. Deliver an interpretable and reproducible ML workflow with clear documentation.
+1. Forecast next-day gold closing price using regression.
+2. Predict whether market direction is up or down for short-term decisions.
+3. Classify market risk using volatility behavior.
+4. Generate actionable investment signals: **Buy / Hold / Sell**.
+5. Deliver a reproducible and interpretable machine learning workflow.
+
+---
+
+## Team Component Allocation (Mandatory Separate Implementation)
+Each member must complete their assigned component independently, with separate notebooks/scripts before final integration.
+
+| Member | Component | Task Scope | Deliverable |
+|---|---|---|---|
+| Member 1 | Price Prediction | Regression pipeline, lag feature generation, model training/evaluation | `price_prediction.ipynb` + metrics summary |
+| Member 2 | Trend Classification | Binary label generation (UP/DOWN), classification training/evaluation | `trend_classification.ipynb` + classification report |
+| Member 3 | Risk Classification | Risk labeling using volatility thresholds, multi-class modeling | `risk_classification.ipynb` + confusion matrix |
+| Member 4 | Investment Signal | Buy/Hold/Sell label strategy, feature engineering, final classifier | `investment_signal.ipynb` + decision output summary |
+
+> Replace placeholders with actual student names and IDs in the final submission.
+
+---
+
+## Planned ML Components
+
+### Price Prediction (Regression)
+- **Objective:** Predict next-day `Close` price
+- **Inputs:** `Open`, `High`, `Low`, `Close`, `Volume`, lag features such as `Close(t-1)`, `Close(t-2)`
+- **Target:** Next-day close price
+- **Planned Models:** Linear Regression, Random Forest Regressor
+- **Metrics:** RMSE, R²
+
+### Trend Classification (UP/DOWN)
+- **Objective:** Predict whether tomorrow’s price increases or decreases
+- **Inputs:** `Open`, `High`, `Low`, `Close`, `Volume`, `Daily_Return`
+- **Target:** Binary label (1 = UP, 0 = DOWN), based on `Close(t+1)` vs `Close(t)`
+- **Planned Models:** Logistic Regression, SVM
+- **Metrics:** Accuracy, Precision, Recall, F1-score
+
+### Risk Classification (Volatility-Based)
+- **Objective:** Classify risk as Low / Medium / High
+- **Inputs:** `Daily_Return`, `Volatility_20`, `Volume`
+- **Target:** Multi-class risk label from volatility thresholds
+- **Planned Models:** Decision Tree Classifier, K-Nearest Neighbors (KNN)
+- **Metrics:** Accuracy, Confusion Matrix
+
+### Investment Signal (BUY/HOLD/SELL)
+- **Objective:** Generate practical daily gold investment signal
+- **Inputs (planned):** momentum, trend, risk, and volume features (e.g., 7-day return, 30-day return, `MA_20-MA_50`, `MA_50-MA_200`, `Volatility_20`, volume percentage change)
+- **Target:** Multi-class decision label (2 = BUY, 1 = HOLD, 0 = SELL)
+- **Planned Models:** Gradient Boosting Classifier, K-Nearest Neighbors (KNN)
+- **Metrics:** Accuracy, Precision, Recall, Confusion Matrix
 
 ---
 
@@ -31,24 +94,38 @@ This repository is structured for team-based development where each member indep
 GoldML-Intelligence-System/
 ├─ data/
 │  ├─ raw/
+│  │  └─ Gold_Market_10y.csv
 │  └─ processed/
+│     └─ shared_features.csv
 ├─ notebooks/
-│  ├─ 01_data_cleaning.ipynb
-│  ├─ 02_eda.ipynb
-│  ├─ 03_feature_engineering.ipynb
-│  ├─ 04_modeling.ipynb
-│  └─ 05_evaluation.ipynb
+│  ├─ price_prediction.ipynb
+│  ├─ trend_classification.ipynb
+│  ├─ risk_classification.ipynb
+│  ├─ investment_signal.ipynb
+│  └─ integration_summary.ipynb
+├─ outputs/
+│  ├─ price_prediction/
+│  ├─ trend_classification/
+│  ├─ risk_classification/
+│  └─ investment_signal/
 ├─ src/
-│  ├─ data/
-│  ├─ features/
-│  ├─ models/
-│  └─ evaluation/
+│  ├─ price_prediction/
+│  ├─ trend_classification/
+│  ├─ risk_classification/
+│  └─ investment_signal/
 ├─ reports/
-│  ├─ figures/
+│  ├─ member_contributions.md
 │  └─ final_report.pdf
 ├─ requirements.txt
 └─ README.md
 ```
+
+> [!NOTE]
+> Keep it simple: one main notebook per component, one output folder per component.
+
+> [!IMPORTANT]
+> `.gitkeep` files are folder placeholders only. They are **not** expected project outputs.
+> Expected outputs are the files shown above (for example, `price_prediction.ipynb`, `shared_features.csv`, and `final_report.pdf`).
 
 ---
 
@@ -71,17 +148,36 @@ GoldML-Intelligence-System/
    ```bash
    pip install -r requirements.txt
    ```
-4. Download the dataset from Kaggle and place it in `data/raw/`.
+4. Download the dataset from Kaggle and place it in `data/raw/` as `Gold_Market_10y.csv`.
 5. Run notebooks/scripts according to assigned component.
+
+### First Data Check (All Members)
+Before starting your component, verify you can load the same file:
+
+```python
+from pathlib import Path
+import pandas as pd
+
+data_path = Path("data/raw/Gold_Market_10y.csv")
+assert data_path.exists(), f"Dataset not found: {data_path}"
+
+df = pd.read_csv(data_path)
+print(df.shape)
+print(df.columns.tolist())
+```
 
 ---
 
 ## Workflow and Integration Guidelines
-- Each member works independently on their assigned component.
-- Use consistent naming conventions for notebooks, scripts, and output files.
-- Document all assumptions and preprocessing decisions.
-- Merge component outputs only after peer review and compatibility checks.
-- Maintain reproducibility by fixing random seeds and logging package versions.
+- Each member works only on their assigned component files.
+- Use one branch per member: `member-<id>-<module-name>`.
+- Minimum files per member:
+   - one notebook in `notebooks/`
+   - optional helper code in `src/<module-name>/`
+   - metrics/results in `outputs/<module-name>/`
+- Do not overwrite other members’ component folders.
+- After all 4 components are complete, create `notebooks/integration_summary.ipynb` to compare results and finalize conclusions.
+- Keep preprocessing and label logic documented in the component notebook.
 
 ---
 
@@ -97,12 +193,12 @@ The final integrated submission should demonstrate:
 ---
 
 ## Deliverables
-1. Component-wise notebooks/scripts from each team member
-2. Processed dataset artifacts (if permitted)
-3. Final integrated model pipeline
-4. Evaluation summary and comparison tables
-5. Final report/presentation assets
-6. Updated project documentation
+1. Four separate component notebooks/scripts (one per member)
+2. Shared preprocessing notes and feature definitions
+3. Model outputs and metrics for each component
+4. Final integrated system summary
+5. Evaluation tables and confusion matrices
+6. Final report/presentation assets and updated documentation
 
 ---
 
@@ -115,10 +211,10 @@ The final integrated submission should demonstrate:
 ---
 
 ## Maintainers
-- Team: GoldML Intelligence System Group
-- Institution/Course: Sri Lanka Institute of Information Technology (SLIIT) - Machine Learning
-- Course Code: IT4060
-- Semester/Year: Year 4 Semester 1, 2026
+- **Team:** GoldML Intelligence System Group
+- **Institution/Course:** Sri Lanka Institute of Information Technology (SLIIT) - Machine Learning
+- **Course Code:** IT4060
+- **Semester/Year:** Year 4 Semester 1, 2026
 
 ---
 
@@ -129,3 +225,5 @@ Before final submission, update the following in this README:
 - [ ] Final performance metrics
 - [ ] Repository URL and branch strategy
 - [ ] Course code, module title, lecturer details
+- [ ] Add/create `requirements.txt`
+- [ ] Replace scaffold placeholders with actual notebooks, outputs, and report files
