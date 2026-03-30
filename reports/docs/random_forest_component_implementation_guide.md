@@ -1,4 +1,4 @@
-# Random Forest Component Implementation Guide (Member 3)
+# Random Forest Component Implementation Guide (Member 2)
 
 ## 1. Purpose of This Document
 This document explains in detail what was implemented for the Random Forest component, why each step was done, what outputs were produced, how the results should be interpreted, and what you should do next to maximize marks.
