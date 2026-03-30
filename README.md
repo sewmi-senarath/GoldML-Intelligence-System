@@ -44,11 +44,11 @@ According to the assignment requirements, the team of 4 members implements 4 dis
 
 ---
 
-## Suggested Repository Structure
+## Repository Structure
 ```
 GoldML-Intelligence-System/
 ├─ data/
-│  └─ Gold_Market_10y.csv
+│  └─ Gold_Market_10y.csv                    (Raw dataset: 10 years of gold prices)
 ├─ notebooks/
 │  ├─ gradient_boosting/
 │  │  └─ gradient_boosting_gold_prediction.ipynb
@@ -58,13 +58,84 @@ GoldML-Intelligence-System/
 │  │  └─ linear_regression_gold_prediction.ipynb
 │  └─ svr/
 │     └─ svr_gold_prediction.ipynb
-├─ submission/
-│  ├─ members.txt
-│  ├─ submission.txt (Contains Dataset, GitHub, & YouTube Links)
-│  └─ Final_Report.pdf (Includes code as Appendix)
-├─ requirements.txt
+├─ outputs/                                  (Model outputs and predictions)
+│  ├─ random_forest/
+│  │  ├─ test_predictions_random_forest.csv
+│  │  └─ random_forest_feature_importance.csv
+│  ├─ linear_regression/
+│  │  ├─ linear_regression_coefficients.csv
+│  │  └─ test_predictions_linear_regression.csv
+│  ├─ gradient_boosting/
+│  │  └─ [outputs from member 1]
+│  └─ svr/
+│     └─ [outputs from member 4]
+├─ reports/
+│  ├─ figures/                               (Visualizations and plots)
+│  │  ├─ random_forest_results.png
+│  │  ├─ gradient_boosting_results.png
+│  │  ├─ linear_regression_results.png
+│  │  └─ svr_results.png
+│  └─ docs/                                  (Documentation and guides)
+│     ├─ random_forest_component_implementation_guide.md
+│     └─ member_contributions.md
+├─ requirements.txt                          (Python dependencies)
 └─ README.md
 ```
+
+### Folder Descriptions
+- **`data/`** — Raw dataset from Kaggle containing 10 years of daily gold market data.
+- **`notebooks/`** — Jupyter notebooks implementing the four ML algorithms. Each subdirectory represents one team member's model.
+- **`outputs/`** — Generated model outputs including test predictions and feature importance/coefficients for each algorithm. Organized by algorithm type.
+- **`reports/figures/`** — Visualization outputs (PNG plots) showing model performance, predictions vs actual, residual analysis, and feature importance rankings.
+- **`reports/docs/`** — Documentation including implementation guides, methodology notes, and member contribution tracking.
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+- pip (Python package manager)
+- Jupyter Notebook or JupyterLab (for notebook execution)
+
+### Installation & Setup
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/JordanCJ7/GoldML-Intelligence-System.git
+   cd GoldML-Intelligence-System
+   ```
+
+2. **Create a virtual environment (optional but recommended):**
+   ```bash
+   python -m venv .venv
+   # On Windows:
+   .\.venv\Scripts\activate
+   # On macOS/Linux:
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Launch Jupyter and open notebooks:**
+   ```bash
+   jupyter notebook
+   ```
+   Navigate to `notebooks/` and open the desired algorithm notebook (e.g., `random_forest/random_forest_gold_prediction.ipynb`).
+
+### Running a Model
+Each notebook in the `notebooks/` folder follows the same workflow:
+1. **Load Data** — Reads from `data/Gold_Market_10y.csv`
+2. **Preprocessing** — Handles missing values and data cleaning
+3. **Feature Engineering** — Creates lag features, technical indicators, volatility metrics
+4. **Train/Test Split** — Uses chronological split (80/20) to prevent data leakage
+5. **Hyperparameter Tuning** — Uses GridSearchCV with TimeSeriesSplit cross-validation
+6. **Training & Prediction** — Trains the model and generates predictions on test set
+7. **Evaluation** — Calculates metrics (R², MAE, RMSE, MAPE)
+8. **Visualization** — Generates 4-panel performance plots saved to `reports/figures/`
+9. **Output Export** — Saves predictions and feature importance to `outputs/` folder
 
 ---
 
